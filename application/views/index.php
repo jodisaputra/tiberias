@@ -9,46 +9,39 @@
 <!-- Projects-->
 <section class="projects-section bg-light" id="form">
     <div class="container">
-        <h1 class="text-center">Form Pendaftaran Ibadah</h1>
+        <h1 class="text-center mb-5">Jadwal Ibadah</h1>
 
         <div class="col-12">
-            <form method="POST" action="" class="mt-5">
-                
-                <div class="form-group">
-                    <label>Nama Jemaat</label>
-                    <input type="text" name="nama_jemaat" value="" class="form-control">
-                </div>
 
-                <div class="form-group">
-                    <label>Lokasi Ibadah</label>
-                    <select class="form-control" name="tempat_ibadah" class="form-control">
-                        <option>Tiberias Imperium</option>
-                        <option>Tiberias Tembesi</option>
-                    </select>
-                </div>
+            <div class="table-responsive">
+                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Hari / Tanggal</th>
+                            <th>Cabang</th>
+                            <th>#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                Ibadah Minggu, 04 April 2021
+                            </td>
+                            <td>
+                                <b class="text-danger">Tiberias Imperium</b>
+                            </td>
+                            <td class="text-center">
+                                <a href="" class="btn btn-primary"><i class="fab fa-wpforms"></i> Sesi 1</a>
+                                <a href="" class="btn btn-warning"><i class="fab fa-wpforms"></i> Sesi 2</a>
+                                <a href="" class="btn btn-info"><i class="fab fa-wpforms"></i> Sesi 3</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                <div class="form-group">
-                    <label>No. Hp (<small class="text-danger"><i>Mohon untuk menggunakan Nomor Whatsapp agar mudah dihubungi oleh pengerja</i></small>)</label>
-                    <input type="text" name="nama_jemaat" value="" class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label>Jumlah Anggota Keluarga yang ibadah</label>
-                    <input type="number" name="jumlah_anggota" class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label>Sesi Ibadah</label>
-                    <select class="form-control" name="waktu_ibadah" class="form-control">
-                        <option>Sesi 1 - 08:00</option>
-                        <option>Sesi 2 - 10:30</option>
-                        <option>Sesi 3 - 17:00</option>
-                    </select>
-                </div>
-
-                <button type="submit" class="btn btn-primary mt-5">Simpan</button>
-
-            </form>
         </div>
 
         
