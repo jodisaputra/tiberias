@@ -2,6 +2,11 @@
 <header class="masthead">
     <div class="container d-flex h-100 align-items-center">
         <div class="mx-auto text-center text-white">
+            <div class="col-12">
+                <img src="<?= base_url('assets/images/tiberias_main_logo_white.png') ?>" width="10%">
+                <p style="margin-top: 30px; font-size: 26px; font-weight: bold;">Mempersiapkan Jemaat yang Kudus, Misionaris, dan Siap ke Sorga</p>
+            </div>
+            <br>
             <a class="btn btn-primary js-scroll-trigger" href="#form">Daftar Ibadah</a>
         </div>
     </div>
@@ -19,25 +24,59 @@
                         <tr>
                             <th>No</th>
                             <th>Hari / Tanggal</th>
-                            <th>Cabang</th>
                             <th>#</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php  
+                            $no = 1;
+                            foreach($jadwal as $j) :
+                        ?>
                         <tr>
-                            <td>1</td>
+                            <td><?= $no++ ?></td>
                             <td>
-                                Ibadah Minggu, 04 April 2021
-                            </td>
-                            <td>
-                                <b class="text-danger">Tiberias Imperium</b>
+                                <?= $j->jd_nama_ibadah . ', ' . tgl_indo($j->jd_tanggal) ?>
                             </td>
                             <td class="text-center">
-                                <a href="" class="btn btn-primary"><i class="fab fa-wpforms"></i> Sesi 1</a>
-                                <a href="" class="btn btn-warning"><i class="fab fa-wpforms"></i> Sesi 2</a>
-                                <a href="" class="btn btn-info"><i class="fab fa-wpforms"></i> Sesi 3</a>
+
+                                <?php 
+                                    $sub_jadwal = $this->DetailJadwalIbadah_model->list($j->jd_id);
+                                    foreach($sub_jadwal as $s) : 
+                                ?>
+
+                                <?php 
+                                    $nama_cabang = ''; 
+                                    if($s->sjd_cabang == 1)
+                                    {
+                                        $nama_cabang = 'Tiberias Imperium'
+                                ?>
+
+                                    <a href="<?= base_url('DaftarIbadah/daftar/' . $s->sjd_jadwal . '/' . $s->sjd_sesi . '/' . $s->sjd_cabang . '/' . $s->sjd_id) ?>" class="btn <?php if($s->sjd_sesi == 1) { echo 'btn-primary btn-sm mb-2'; } elseif($s->sjd_sesi == 2) { echo 'btn-info btn-sm mb-2'; } else { echo 'btn-warning btn-sm mb-2'; } ?>"><i class="fab fa-wpforms"></i> <?= $s->ss_namasesi . ' - ' . $nama_cabang ?></a> <br>
+
+                                <?php  
+                                    }
+                                    else
+                                    {
+                                        $nama_cabang = 'Tiberias Tembesi'
+                                ?>
+
+                                    <hr>
+
+                                    <a href="<?= base_url('DaftarIbadah/daftar/' . $s->sjd_jadwal . '/' . $s->sjd_sesi . '/' . $s->sjd_cabang . '/' . $s->sjd_id) ?>" class="btn <?php if($s->sjd_sesi == 1) { echo 'btn-primary btn-sm mb-2'; } elseif($s->sjd_sesi == 2) { echo 'btn-info btn-sm mb-2'; } else { echo 'btn-warning btn-sm mb-2'; } ?>"><i class="fab fa-wpforms"></i> <?= $s->ss_namasesi . ' - ' . $nama_cabang ?></a> <br>
+
+                                <?php  
+                                    }
+                                ?>
+
+                                <?php  
+                                    endforeach;
+                                ?>
                             </td>
                         </tr>
+
+                        <?php  
+                            endforeach;
+                        ?>
                     </tbody>
                 </table>
             </div>

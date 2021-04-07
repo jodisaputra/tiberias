@@ -52,11 +52,27 @@
         <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
         
+        <script src="<?= base_url('assets/select2/') ?>select2.min.js"></script>
 
+        <!-- sweet alert -->
+        <script src="<?= base_url('assets/sweetalert/') ?>sweetalert.min.js"></script>
         <script type="text/javascript">
-            $(document).ready(function() {
-                $('#example').DataTable();
-            } );
+            $(document).ready(function(){
+                <?php if($this->session->flashdata('message')) { ?>
+                  <?php if($this->session->flashdata('tipe') == "success") { ?>
+                    Swal.fire({
+                      text: '<?php echo $this->session->flashdata('message');?>',
+                      icon: '<?php echo $this->session->flashdata('tipe');?>',
+                    })
+                  <?php }else{ ?>
+                    Swal.fire({
+                      title: 'Oops.....',
+                      text: '<?php echo $this->session->flashdata('message');?>',
+                      icon: '<?php echo $this->session->flashdata('tipe');?>',
+                    })
+                  <?php } ?>
+                <?php } ?>
+          });
         </script>
     </body>
 </html>
