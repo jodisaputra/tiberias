@@ -63,23 +63,35 @@ class DetailJadwalIbadah extends CI_Controller {
 		}
 		else 
 		{
-			$data = [
-				'sjd_jadwal'	=> $this->input->post('id_jadwal'),
-				'sjd_sesi'	=> $this->input->post('sesi'),
-				'sjd_cabang'	=> $this->input->post('cabang')
-			];
-			
-			if($this->DetailJadwalIbadah_model->insert($data))
+			// cek jika cabang dan sesi sudah ada
+			$cek = $this->DetailJadwalIbadah_model->cek($this->input->post('id_jadwal'), $this->input->post('sesi'), $this->input->post('cabang'));
+
+			if($cek->num_rows() > 0)
 			{
-				$this->session->set_flashdata('message', 'Jadwal Ibadah Berhasil Disimpan');
-				$this->session->set_flashdata('tipe', 'success');
-				redirect(base_url('DetailJadwalIbadah/detail/' . $this->input->post('id_jadwal')));
-			}
-			else 
-			{
-				$this->session->set_flashdata('message', 'Jadwal Ibadah Gagal Disimpan');
+				$this->session->set_flashdata('message', 'Maaf, Sesi untuk Cabang Ibadah ini sudah ada!');
 				$this->session->set_flashdata('tipe', 'error');
-				redirect(base_url('DetailJadwalIbadah/detail/' . $this->input->post('id_jadwal')));
+				$this->tambah($this->input->post('id_jadwal'));
+			}
+			else
+			{
+				$data = [
+					'sjd_jadwal'	=> $this->input->post('id_jadwal'),
+					'sjd_sesi'	=> $this->input->post('sesi'),
+					'sjd_cabang'	=> $this->input->post('cabang')
+				];
+				
+				if($this->DetailJadwalIbadah_model->insert($data))
+				{
+					$this->session->set_flashdata('message', 'Jadwal Ibadah Berhasil Disimpan');
+					$this->session->set_flashdata('tipe', 'success');
+					redirect(base_url('DetailJadwalIbadah/detail/' . $this->input->post('id_jadwal')));
+				}
+				else 
+				{
+					$this->session->set_flashdata('message', 'Jadwal Ibadah Gagal Disimpan');
+					$this->session->set_flashdata('tipe', 'error');
+					redirect(base_url('DetailJadwalIbadah/detail/' . $this->input->post('id_jadwal')));
+				}
 			}
 		}
 	}

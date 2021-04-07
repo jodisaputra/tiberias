@@ -3,6 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class DetailJadwalIbadah_model extends CI_Model {
 
+	function cek($id_jadwal, $id_sesi, $id_cabang)
+	{
+		$this->db->where('sjd_jadwal', $id_jadwal);
+		$this->db->where('sjd_sesi', $id_sesi);
+		$this->db->where('sjd_cabang', $id_cabang);
+		return $this->db->get('sub_jadwal');
+	}
+
 	function list($id_jadwal)
 	{
 		$this->db->join('jadwal', 'jadwal.jd_id = sub_jadwal.sjd_jadwal');
