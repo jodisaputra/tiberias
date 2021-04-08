@@ -65,6 +65,12 @@
                             <?= form_error('sesi') ?>
                         </div>
 
+                        <div class="form-group">
+                            <label>Kapasitas Maksimal</label>
+                            <input type="number" name="kapasitas" value="<?= $kapasitas ?>" class="form-control">
+                            <?= form_error('kapasitas') ?>
+                        </div>
+
                         <button type="submit" class="btn btn-primary"><?= $button ?></button>
 
                     </form>

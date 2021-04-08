@@ -23,6 +23,7 @@
                                     <th>No</th>
                                     <th>Cabang</th>
                                     <th>Sesi</th>
+                                    <th>Kapasitas</th>
                                     <th width="40%">#</th>
                                 </tr>
                             </thead>
@@ -35,6 +36,7 @@
                                     <td><?= $no++ ?></td>
                                     <td><?= $l->cb_namacabang ?></td>
                                     <td><?= $l->ss_namasesi ?></td>
+                                    <td><?= $l->sjd_kapasitas ?></td>
                                     <td>
                                         <a href="<?= base_url('DetailJadwalIbadah/ubah/' . $l->sjd_id) ?>" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Ubah</a>
                                         <a href="<?= base_url('DetailJadwalIbadah/hapus/' . $l->sjd_id . '/' . $this->uri->segment(3)) ?>" onclick="return confirm('Apakah anda yakin ingin menghapus data ini ?')" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Hapus</a>

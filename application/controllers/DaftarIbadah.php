@@ -50,6 +50,9 @@ class DaftarIbadah extends CI_Controller {
 		}
 		else 
 		{
+
+			$cek = 
+
 			foreach($this->input->post('jemaat') as $t)
 			{
 				$data[$t] = [

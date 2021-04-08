@@ -41,6 +41,7 @@ class DetailJadwalIbadah extends CI_Controller {
 			'action' => base_url('DetailJadwalIbadah/simpan'),
 			'cabang' => set_value('cabang'),
 			'sesi' => set_value('sesi'),
+			'kapasitas' => set_value('kapasitas'),
 			'id_jadwal' => $id,
 			'listcabang' => $cabang,
 			'listsesi' => $sesi
@@ -52,6 +53,7 @@ class DetailJadwalIbadah extends CI_Controller {
 	{
 		$this->form_validation->set_rules('cabang','Cabang Ibadah','required');
 		$this->form_validation->set_rules('sesi','Sesi Ibadah','required');
+		$this->form_validation->set_rules('kapasitas','Kapasitas','required');
 
 		$this->form_validation->set_error_delimiters('<small class="text-danger">', '</small>');
 
@@ -77,7 +79,8 @@ class DetailJadwalIbadah extends CI_Controller {
 				$data = [
 					'sjd_jadwal'	=> $this->input->post('id_jadwal'),
 					'sjd_sesi'	=> $this->input->post('sesi'),
-					'sjd_cabang'	=> $this->input->post('cabang')
+					'sjd_cabang'	=> $this->input->post('cabang'),
+					'sjd_kapasitas'	=> $this->input->post('kapasitas')
 				];
 				
 				if($this->DetailJadwalIbadah_model->insert($data))
@@ -107,6 +110,7 @@ class DetailJadwalIbadah extends CI_Controller {
 			'action' => base_url('DetailJadwalIbadah/simpan_perubahan'),
 			'cabang' => set_value('cabang', $row->sjd_cabang),
 			'sesi' => set_value('sesi', $row->sjd_sesi),
+			'kapasitas' => set_value('kapasitas', $row->sjd_kapasitas),
 			'id_jadwal' => $row->sjd_jadwal,
 			'id_subjadwal' => $row->sjd_id,
 			'listcabang' => $cabang,
@@ -119,6 +123,7 @@ class DetailJadwalIbadah extends CI_Controller {
 	{
 		$this->form_validation->set_rules('cabang','Cabang Ibadah','required');
 		$this->form_validation->set_rules('sesi','Sesi Ibadah','required');
+		$this->form_validation->set_rules('kapasitas','Kapasitas','required');
 
 		$this->form_validation->set_error_delimiters('<small class="text-danger">', '</small>');
 
@@ -126,14 +131,15 @@ class DetailJadwalIbadah extends CI_Controller {
 		{
 			$this->session->set_flashdata('message', 'Isilah Form Dengan Benar');
 			$this->session->set_flashdata('tipe', 'error');
-			$this->tambah($this->input->post('id_subjadwal'));
+			$this->ubah($this->input->post('id_subjadwal'));
 		}
 		else 
 		{
 			$data = [
 				'sjd_jadwal'	=> $this->input->post('id_jadwal'),
 				'sjd_sesi'	=> $this->input->post('sesi'),
-				'sjd_cabang'	=> $this->input->post('cabang')
+				'sjd_cabang'	=> $this->input->post('cabang'),
+				'sjd_kapasitas'	=> $this->input->post('kapasitas')
 			];
 			
 			if($this->DetailJadwalIbadah_model->update($this->input->post('id_subjadwal'), $data))
