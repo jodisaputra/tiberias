@@ -24,7 +24,7 @@
                                     <th>Cabang</th>
                                     <th>Sesi</th>
                                     <th>Kapasitas</th>
-                                    <th width="40%">#</th>
+                                    <th width="50%">#</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -42,6 +42,8 @@
                                         <a href="<?= base_url('DetailJadwalIbadah/hapus/' . $l->sjd_id . '/' . $this->uri->segment(3)) ?>" onclick="return confirm('Apakah anda yakin ingin menghapus data ini ?')" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Hapus</a>
 
                                         <a href="<?= base_url('DetailJadwalIbadah/list_jemaat/' . $l->sjd_jadwal . '/' . $l->sjd_id) ?>" class="btn btn-info btn-sm"><i class="fas fa-users"></i> Lihat Jemaat</a>
+
+                                        <a target="_BLANK" href="<?= base_url('DetailJadwalIbadah/cetak_list_jemaat/' . $l->sjd_id) ?>" class="btn btn-success btn-sm"><i class="fas fa-print"></i> Cetak List Jemaat</a>
                                     </td>
                                 </tr>
                                 <?php  

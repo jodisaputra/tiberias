@@ -189,6 +189,13 @@ class DetailJadwalIbadah extends CI_Controller {
 	{
 		if($this->DetailJadwalIbadah_model->delete_jemaatibadah($id_jemaatibadah))
 		{
+			$get_subjadwal = $this->DetailJadwalIbadah_model->listbyid($id_subjadwal);
+			$total_max = $get_subjadwal->sjd_kapasitas + 1;
+			$data_subjadwal = [
+				'sjd_kapasitas' => $total_max
+			];
+			$this->DetailJadwalIbadah_model->update($id_subjadwal, $data_subjadwal);
+
 			$this->session->set_flashdata('message', 'Pembatalan Jemaat berhasil');
 			$this->session->set_flashdata('tipe', 'success');
 			redirect(base_url('DetailJadwalIbadah/list_jemaat/' . $id_jadwal . '/' . $id_subjadwal));
@@ -199,6 +206,20 @@ class DetailJadwalIbadah extends CI_Controller {
 			$this->session->set_flashdata('tipe', 'error');
 			redirect(base_url('DetailJadwalIbadah/list_jemaat/' . $id_jadwal . '/' . $id_subjadwal));
 		}
+	}
+
+	public function cetak_list_jemaat($id_subjadwal)
+	{
+		$mpdf = new \Mpdf\Mpdf([
+			'orientation' => 'P'
+		]);
+		$list_jemaat = $this->DetailJadwalIbadah_model->list_jemaat($id_subjadwal);
+		// header('content-type: application/json');
+		// echo json_encode($list_jemaat);
+		// die;
+		$data = $this->load->view('admin/pdf/cetak_list_jemaat', ['list' => $list_jemaat], TRUE);
+		$mpdf->WriteHTML($data);
+		$mpdf->Output();
 	}
 
 }
