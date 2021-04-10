@@ -7,6 +7,7 @@ class DaftarIbadah extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('DaftarIbadah_model');
+		$this->load->model('DetailJadwalIbadah_model');
 	}
 
 	private function load_template($view, $data = null)
@@ -16,63 +17,90 @@ class DaftarIbadah extends CI_Controller {
 		$this->load->view('template_frontend/footer');	
 	}
 
-	public function daftar($id_jadwal, $id_sesi, $id_cabang, $id_subjadwal)
+	public function daftar($id_jadwal, $id_subjadwal, $id_cabang, $id_sesi)
 	{
-		$get = $this->DaftarIbadah_model->get($id_jadwal, $id_sesi, $id_cabang);
+		$get = $this->DaftarIbadah_model->get($id_jadwal, $id_cabang, $id_sesi);
 
 		$data = [
-			'title' => 'Form Pendaftaran untuk ' . $get->ss_namasesi . ' - ' . $get->cb_namacabang,
+			'title' => 'Form Pendaftaran untuk ' . $get['ss_namasesi'] . ' - ' . $get['cb_namacabang'],
 			'action' => site_url('DaftarIbadah/simpan'),
-			'sesi' => set_value('sesi', $get->ss_namasesi),
-			'id_sesi' => $get->ss_id,
-			'cabang' => set_value('sesi', $get->cb_namacabang),
-			'id_jemaat' => set_value('id_jemaat'),
-			'nama_jemaat' => set_value('nama_jemaat'),
-			'id_cabang' => $get->cb_id,
+			'id_jadwal' => $id_jadwal,
 			'id_subjadwal' => $id_subjadwal,
-			'id_jadwal' => $id_jadwal
+			'id_cabang' => $id_cabang,
+			'id_sesi' => $id_sesi,
+			'sesi' => set_value('sesi', $get['ss_namasesi']),
+			'cabang' => set_value('cabang', $get['cb_namacabang']),
+			'get' => $get
 		];
+
+		// header('content-type: application/json');
+		// echo json_encode($data);
+		// die;
 
 		$this->load_template('daftar_ibadah/form', $data);
 	}
 
 	public function simpan()
 	{
-		$this->form_validation->set_rules('jemaat[]','Jemaat','required|trim');
+		$jadwal_id = $this->input->post('id_jadwal');
+		$subjadwal_id = $this->input->post('id_subjadwal');
+		$cabang_id = $this->input->post('id_cabang');
+		$sesi_id = $this->input->post('id_sesi');
 
-		$this->form_validation->set_error_delimiters('<small class="text-danger">', '</small>');
+		$get_detail_jadwal = $this->DetailJadwalIbadah_model->listbyid($subjadwal_id);
 
-		if($this->form_validation->run() == false) 
+		$kapasitas_ibadah = $get_detail_jadwal->sjd_kapasitas;
+
+		foreach($this->input->post('jemaat') as $t)
 		{
-			$this->session->set_flashdata('message', 'Isilah Form Dengan Benar');
-			$this->session->set_flashdata('tipe', 'error');
-			$this->daftar($this->input->post('id_jadwal'), $this->input->post('id_sesi'), $this->input->post('id_cabang'), $this->input->post('id_subjadwal'));
-		}
-		else 
-		{
-
-			$cek = 
-
-			foreach($this->input->post('jemaat') as $t)
-			{
-				$data[$t] = [
-					'ji_sub_jadwal' => $this->input->post('id_subjadwal'),
-					'ji_jemaat'	=> $t,
-					'ji_status' => 'y'
-				];
-			}
+			$cek_daftar = $this->DaftarIbadah_model->cek($this->input->post('id_jadwal'), $t)->row();
 			
-			if($this->DaftarIbadah_model->insert($data))
+			$data[$t] = [
+				'ji_sub_jadwal' => $this->input->post('id_subjadwal'),
+				'ji_jemaat'	=> $t,
+				'ji_status' => 'y'
+			];
+
+			if($cek_daftar)
 			{
-				$this->session->set_flashdata('message', 'Pendaftaran Ibadah Berhasil !');
-				$this->session->set_flashdata('tipe', 'success');
-				redirect(base_url());
-			}
-			else 
-			{
-				$this->session->set_flashdata('message', 'Pendaftaran Ibadah Gagal !');
+				$this->session->set_flashdata('message', 'Maaf, Anda Sudah pernah Mendaftar !');
 				$this->session->set_flashdata('tipe', 'error');
-				redirect(base_url());
+				$this->daftar($jadwal_id, $sesi_id, $cabang_id, $subjadwal_id);
+			}
+			else
+			{
+				// cek jika jumlah jemaat yang didaftarkan lebih dari jumlah kapasitas ibadah
+				$count_pendaftar = count($this->input->post('jemaat'));
+
+				if($kapasitas_ibadah < $count_pendaftar)
+				{
+					$this->session->set_flashdata('message', 'Maaf, Jumlah Pendaftar melebihi dari Jumlah Kursi Maksimal untuk Ibadah. Sisa Kursi yang tersedia yaitu ' . $kapasitas_ibadah);
+					$this->session->set_flashdata('tipe', 'error');
+					$this->daftar($jadwal_id, $sesi_id, $cabang_id, $subjadwal_id);
+				}
+				else
+				{
+					if($this->DaftarIbadah_model->insert($data))
+					{
+						$kurang_total = $kapasitas_ibadah - 1;
+
+						$data_update = [
+							'sjd_kapasitas' => $kurang_total
+						];
+
+						$this->DetailJadwalIbadah_model->update($subjadwal_id, $data_update);
+
+						$this->session->set_flashdata('message', 'Pendaftaran Ibadah Berhasil !');
+						$this->session->set_flashdata('tipe', 'success');
+						redirect(base_url());
+					}
+					else 
+					{
+						$this->session->set_flashdata('message', 'Pendaftaran Ibadah Gagal !');
+						$this->session->set_flashdata('tipe', 'error');
+						redirect(base_url());
+					}
+				}
 			}
 		}
 	}

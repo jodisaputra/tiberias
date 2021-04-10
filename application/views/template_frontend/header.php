@@ -18,7 +18,7 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
 
         <!-- select2 -->
-        <link rel="stylesheet" type="text/css" href="<?= base_url('assets/select2/') ?>select2.min.css">
+        <link rel="stylesheet" type="text/css" href="<?= base_url('assets/select2/') ?>select2.css">
 
     </head>
     <body id="page-top">

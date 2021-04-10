@@ -13,32 +13,32 @@
     <div class="container">
 
         <div class="alert alert-warning" role="alert">
-          <b><?= $title ?></b>
+          <b>Form Pendaftaran</b>
         </div>
 
         <form method="POST" action="<?= $action ?>">
             
             <div class="col-12 mt-5">
 
-                <input type="hidden" name="id_subjadwal" value="<?= $id_subjadwal ?>">
                 <input type="hidden" name="id_jadwal" value="<?= $id_jadwal ?>">
+                <input type="hidden" name="id_subjadwal" value="<?= $id_subjadwal ?>">
+                <input type="hidden" name="id_cabang" value="<?= $id_cabang ?>">
+                <input type="hidden" name="id_sesi" value="<?= $id_sesi ?>">
 
                 <div class="form-group">
                     <label>Sesi </label>
                     <input type="text" name="sesi" value="<?= $sesi ?>" class="form-control" readonly>
-                    <input type="hidden" name="id_sesi" value="<?= $id_sesi ?>">
                 </div>
 
                 <div class="form-group">
                     <label>Cabang </label>
                     <input type="text" name="cabang" value="<?= $cabang ?>" class="form-control" readonly>
-                    <input type="hidden" name="id_cabang" value="<?= $id_sesi ?>">
                 </div>
 
                 <div class="form-group">
                     <label>Jemaat</label>
-                    <select class="form-control js-example-basic-multiple" name="jemaat[]" id="jemaat" multiple="multiple">
-                        <option value="<?= $id_jemaat ?>"><?= $nama_jemaat ?></option>
+                    <select class="form-control select2" required id="jemaat" name="jemaat[]" multiple="multiple">
+                        <!-- <option value="<?= $id_jemaat ?>"><?= $nama_jemaat ?></option> -->
                     </select>
                 </div>
 
@@ -77,4 +77,3 @@
       },
     });
 </script>
-

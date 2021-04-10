@@ -29,6 +29,7 @@ class DetailJadwalIbadah extends CI_Controller {
 		$data = [
 			'list' => $this->DetailJadwalIbadah_model->list($id_jadwal)
 		];
+
 		$this->load_template('admin/sub_jadwal_ibadah/index', $data);
 	}
 
@@ -170,6 +171,33 @@ class DetailJadwalIbadah extends CI_Controller {
 			$this->session->set_flashdata('message', 'Jadwal Ibadah Gagal Dihapus');
 			$this->session->set_flashdata('tipe', 'error');
 			redirect(base_url('DetailJadwalIbadah/detail/' . $id_jadwal));
+		}
+	}
+
+
+	public function list_jemaat($id_jadwal, $id_subjadwal)
+	{
+		$data = [
+			'list' => $this->DetailJadwalIbadah_model->list_jemaat($id_subjadwal),
+			'id_jadwal' => $id_jadwal
+		];
+		
+		$this->load_template('admin/sub_jadwal_ibadah/list_jemaat', $data);
+	}
+
+	public function batalkan_jemaat($id_jemaatibadah, $id_jadwal, $id_subjadwal)
+	{
+		if($this->DetailJadwalIbadah_model->delete_jemaatibadah($id_jemaatibadah))
+		{
+			$this->session->set_flashdata('message', 'Pembatalan Jemaat berhasil');
+			$this->session->set_flashdata('tipe', 'success');
+			redirect(base_url('DetailJadwalIbadah/list_jemaat/' . $id_jadwal . '/' . $id_subjadwal));
+		}
+		else 
+		{
+			$this->session->set_flashdata('message', 'Pembatalan Jemaat gagal');
+			$this->session->set_flashdata('tipe', 'error');
+			redirect(base_url('DetailJadwalIbadah/list_jemaat/' . $id_jadwal . '/' . $id_subjadwal));
 		}
 	}
 

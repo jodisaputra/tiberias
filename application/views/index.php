@@ -39,38 +39,8 @@
                             </td>
                             <td class="text-center">
 
-                                <?php 
-                                    $sub_jadwal = $this->DetailJadwalIbadah_model->list($j->jd_id);
-                                    foreach($sub_jadwal as $s) : 
-                                ?>
+                                <?= $html ?>
 
-                                <?php 
-                                    $nama_cabang = ''; 
-                                    if($s->sjd_cabang == 1)
-                                    {
-                                        $nama_cabang = 'Tiberias Imperium'
-                                ?>
-
-                                    <a href="<?= base_url('DaftarIbadah/daftar/' . $s->sjd_jadwal . '/' . $s->sjd_sesi . '/' . $s->sjd_cabang . '/' . $s->sjd_id) ?>" class="btn <?php if($s->sjd_sesi == 1) { echo 'btn-primary btn-sm mb-2'; } elseif($s->sjd_sesi == 2) { echo 'btn-info btn-sm mb-2'; } else { echo 'btn-warning btn-sm mb-2'; } ?>"><i class="fab fa-wpforms"></i> <?= $s->ss_namasesi . ' - ' . $nama_cabang ?></a> <br>
-
-                                <?php  
-                                    }
-                                    else
-                                    {
-                                        $nama_cabang = 'Tiberias Tembesi'
-                                ?>
-
-                                    <hr>
-
-                                    <a href="<?= base_url('DaftarIbadah/daftar/' . $s->sjd_jadwal . '/' . $s->sjd_sesi . '/' . $s->sjd_cabang . '/' . $s->sjd_id) ?>" class="btn <?php if($s->sjd_sesi == 1) { echo 'btn-primary btn-sm mb-2'; } elseif($s->sjd_sesi == 2) { echo 'btn-info btn-sm mb-2'; } else { echo 'btn-warning btn-sm mb-2'; } ?>"><i class="fab fa-wpforms"></i> <?= $s->ss_namasesi . ' - ' . $nama_cabang ?></a> <br>
-
-                                <?php  
-                                    }
-                                ?>
-
-                                <?php  
-                                    endforeach;
-                                ?>
                             </td>
                         </tr>
 

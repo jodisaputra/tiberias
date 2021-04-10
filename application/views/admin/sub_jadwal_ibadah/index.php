@@ -41,7 +41,7 @@
                                         <a href="<?= base_url('DetailJadwalIbadah/ubah/' . $l->sjd_id) ?>" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Ubah</a>
                                         <a href="<?= base_url('DetailJadwalIbadah/hapus/' . $l->sjd_id . '/' . $this->uri->segment(3)) ?>" onclick="return confirm('Apakah anda yakin ingin menghapus data ini ?')" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Hapus</a>
 
-                                        <a href="<?= base_url('SubJadwalIbadah/ubah/' . $l->jd_id) ?>" class="btn btn-info btn-sm"><i class="fas fa-users"></i> Lihat Jemaat</a>
+                                        <a href="<?= base_url('DetailJadwalIbadah/list_jemaat/' . $l->sjd_jadwal . '/' . $l->sjd_id) ?>" class="btn btn-info btn-sm"><i class="fas fa-users"></i> Lihat Jemaat</a>
                                     </td>
                                 </tr>
                                 <?php  

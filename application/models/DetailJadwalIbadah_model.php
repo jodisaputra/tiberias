@@ -41,6 +41,20 @@ class DetailJadwalIbadah_model extends CI_Model {
 	{
 		$this->db->where('sjd_id', $id);
 		return $this->db->delete('sub_jadwal');
+	}
+
+	function delete_jemaatibadah($id_jemaatibadah)
+	{
+		$this->db->where('ji_id', $id_jemaatibadah);
+		return $this->db->delete('jemaat_ibadah');
+	}
+
+	function list_jemaat($id_subjadwal)
+	{
+		$this->db->join('sub_jadwal', 'sub_jadwal.sjd_id = jemaat_ibadah.ji_sub_jadwal');
+		$this->db->join('jemaat', 'jemaat.jmt_id = jemaat_ibadah.ji_jemaat');
+		$this->db->where('jemaat_ibadah.ji_sub_jadwal', $id_subjadwal);
+		return $this->db->get('jemaat_ibadah')->result();
 	}	
 
 }
