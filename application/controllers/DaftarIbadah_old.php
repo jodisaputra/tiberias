@@ -50,12 +50,9 @@ class DaftarIbadah extends CI_Controller {
 		$get_detail_jadwal = $this->DetailJadwalIbadah_model->listbyid($subjadwal_id);
 
 		$kapasitas_ibadah = $get_detail_jadwal->sjd_kapasitas;
-		$total_kapasitas = $get_detail_jadwal->sjd_kapasitas;
 
 		foreach($this->input->post('jemaat') as $t)
 		{
-			$kapasitas_ibadah--;
-
 			$cek_daftar = $this->DaftarIbadah_model->cek($this->input->post('id_jadwal'), $t)->row();
 			
 			$data[$t] = [
@@ -63,48 +60,49 @@ class DaftarIbadah extends CI_Controller {
 				'ji_jemaat'	=> $t,
 				'ji_status' => 'y'
 			];
-		}
 
-		if($cek_daftar)
-		{
-			$this->session->set_flashdata('message', 'Maaf, Anda Sudah pernah Mendaftar !');
-			$this->session->set_flashdata('tipe', 'error');
-			$this->daftar($jadwal_id, $subjadwal_id, $cabang_id, $sesi_id);
-		}
-		else
-		{
-			// cek jika jumlah jemaat yang didaftarkan lebih dari jumlah kapasitas ibadah
-			$count_pendaftar = count($this->input->post('jemaat'));
-
-			if($kapasitas_ibadah < $count_pendaftar)
+			if($cek_daftar)
 			{
-				$this->session->set_flashdata('message', 'Maaf, Jumlah Pendaftar melebihi dari Jumlah Kursi Maksimal untuk Ibadah. Sisa Kursi yang tersedia yaitu ' . $total_kapasitas);
+				$this->session->set_flashdata('message', 'Maaf, Anda Sudah pernah Mendaftar !');
 				$this->session->set_flashdata('tipe', 'error');
-				$this->daftar($jadwal_id, $subjadwal_id, $cabang_id, $sesi_id);
+				$this->daftar($jadwal_id, $sesi_id, $cabang_id, $subjadwal_id);
 			}
 			else
-			{	
-				if($this->DaftarIbadah_model->insert($data))
-				{
-					$data_update = [
-						'sjd_kapasitas' => $kapasitas_ibadah
-					];
+			{
+				// cek jika jumlah jemaat yang didaftarkan lebih dari jumlah kapasitas ibadah
+				$count_pendaftar = count($this->input->post('jemaat'));
 
-					$this->DetailJadwalIbadah_model->update($subjadwal_id, $data_update);
-
-					$this->session->set_flashdata('message', 'Pendaftaran Ibadah Berhasil !');
-					$this->session->set_flashdata('tipe', 'success');
-					redirect(base_url());
-				}
-				else 
+				if($kapasitas_ibadah < $count_pendaftar)
 				{
-					$this->session->set_flashdata('message', 'Pendaftaran Ibadah Gagal !');
+					$this->session->set_flashdata('message', 'Maaf, Jumlah Pendaftar melebihi dari Jumlah Kursi Maksimal untuk Ibadah. Sisa Kursi yang tersedia yaitu ' . $kapasitas_ibadah);
 					$this->session->set_flashdata('tipe', 'error');
-					redirect(base_url());
+					$this->daftar($jadwal_id, $sesi_id, $cabang_id, $subjadwal_id);
+				}
+				else
+				{
+					if($this->DaftarIbadah_model->insert($data))
+					{
+						$kurang_total = $kapasitas_ibadah - 1;
+
+						$data_update = [
+							'sjd_kapasitas' => $kurang_total
+						];
+
+						$this->DetailJadwalIbadah_model->update($subjadwal_id, $data_update);
+
+						$this->session->set_flashdata('message', 'Pendaftaran Ibadah Berhasil !');
+						$this->session->set_flashdata('tipe', 'success');
+						redirect(base_url());
+					}
+					else 
+					{
+						$this->session->set_flashdata('message', 'Pendaftaran Ibadah Gagal !');
+						$this->session->set_flashdata('tipe', 'error');
+						redirect(base_url());
+					}
 				}
 			}
 		}
-
 	}
 
 }

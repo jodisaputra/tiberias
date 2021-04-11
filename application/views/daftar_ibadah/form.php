@@ -13,7 +13,7 @@
     <div class="container">
 
         <div class="alert alert-warning" role="alert">
-          <b>Form Pendaftaran</b>
+          <b><?= $title ?></b>
         </div>
 
         <form method="POST" action="<?= $action ?>">
