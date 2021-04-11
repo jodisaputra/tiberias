@@ -43,7 +43,7 @@
                 </div>
 
                 <p class="text-danger">
-                    <b>Jika nama Bapak / Ibu tidak ada, Silahkan Mendaftar terlebih dahulu di link berikut <a href="<?= base_url('DaftarJemaat') ?>">Daftar</a></b>
+                    <b>Jika nama Bapak / Ibu tidak ada, Silahkan Mengisi form data jemaat terlebih dahulu di link berikut <a href="<?= base_url('DaftarJemaat') ?>">Daftar</a></b>
                 </p>
 
                 <button type="submit" class="btn btn-primary mt-4">Simpan</button>
