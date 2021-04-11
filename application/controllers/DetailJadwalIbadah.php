@@ -214,6 +214,12 @@ class DetailJadwalIbadah extends CI_Controller {
 			'orientation' => 'P'
 		]);
 		$list_jemaat = $this->DetailJadwalIbadah_model->list_jemaat($id_subjadwal);
+		$get_judul = $this->DetailJadwalIbadah_model->get_judul($id_subjadwal);
+		$title = 'Daftar Hadir Jemaat ' . $get_judul->jd_nama_ibadah .' ' . $get_judul->cb_namacabang . ' ' . 'Tanggal ' . tgl_indo($get_judul->jd_tanggal);
+
+		header('content-type: application/json');
+		echo json_encode($title);
+		die;
 		// header('content-type: application/json');
 		// echo json_encode($list_jemaat);
 		// die;
