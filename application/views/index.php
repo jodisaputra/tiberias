@@ -3,8 +3,8 @@
     <div class="container d-flex h-100 align-items-center">
         <div class="mx-auto text-center text-white">
             <div class="col-12">
-                <img src="<?= base_url('assets/images/tiberias_main_logo_white.png') ?>" width="10%">
-                <p style="margin-top: 30px; font-size: 26px; font-weight: bold;">Mempersiapkan Jemaat yang Kudus, Misionaris, dan Siap ke Sorga</p>
+                <img src="<?= base_url('assets/images/tiberias_main_logo_white.png') ?>" width="15%">
+                <p style="margin-top: 30px; font-size: 26px; font-weight: bold; font-family: 'Merriweather', serif;"><?= strtoupper('Mempersiapkan Jemaat' . '<br>' . 'yang Kudus, Misionaris, dan Siap ke Sorga ') ?></p>
             </div>
             <br>
             <a class="btn btn-primary js-scroll-trigger" href="#form">Daftar Ibadah</a>

@@ -27,6 +27,10 @@ class Home extends CI_Controller {
 		{
 			$sub_jadwal = $this->DetailJadwalIbadah_model->list($j->jd_id);
 
+			// header('content-type: application/json');
+			// echo json_encode($sub_jadwal);
+			// die;
+
 			foreach($sub_jadwal as $s)
 			{
 				$jadwal_id = $j->jd_id;
